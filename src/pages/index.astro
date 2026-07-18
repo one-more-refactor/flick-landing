@@ -1,104 +1,32 @@
 ---
 import Base from '../layouts/Base.astro';
-import HeroReader from '../components/HeroReader.astro';
-import { AUTH_DEMO_WORDS } from '../lib/demos';
-import { APP_URL, REPO } from '../config';
+import VantaBg from '../components/VantaBg.astro';
+import SiteMotion from '../components/SiteMotion.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import FormatStrip from '../components/FormatStrip.astro';
+import HowItWorks from '../components/HowItWorks.astro';
+import UseCases from '../components/UseCases.astro';
+import Numbers from '../components/Numbers.astro';
+import Plans from '../components/Plans.astro';
+import FinalCta from '../components/FinalCta.astro';
+import Footer from '../components/Footer.astro';
 ---
 
 <Base>
-  <header class="top">
-    <div class="wrap">
-      <a class="mark" href="/">FLICK<span class="cur">_</span></a>
-      <nav class="nav">
-        <a class="link" href={REPO} target="_blank" rel="noopener">GITHUB <span class="x">↗</span></a>
-        <a class="cta" href={APP_URL}>Open flick →</a>
-      </nav>
-    </div>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="wrap">
-        <p class="eyebrow">read it in a <b>flick</b></p>
-        <div class="stage">
-          <HeroReader words={AUTH_DEMO_WORDS} wpm={700} meter />
-        </div>
-        <h1 class="h1">Read 2–3× faster,<br />one word at a time.</h1>
-        <p class="sub">
-          flick streams your reading a single word at a time, each one anchored on its pivot
-          letter — so your eyes stop hunting across lines and just take the words in. Open source,
-          self-hostable, and free to use.
-        </p>
-        <div class="cta-row">
-          <a class="go" href={APP_URL}>Start reading <span class="ar">→</span></a>
-          <a class="ghost" href="#how">how it works</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- placeholder anchor — the fancy sections (product intro, use cases,
-         numbers, plans) are built on top of this scaffold. -->
-    <section id="how" class="stub">
-      <div class="wrap"><p class="stub-note">— more coming —</p></div>
-    </section>
-  </main>
-
-  <footer class="foot">
-    <div class="wrap">
-      <span class="foot-mark">FLICK_</span>
-      <a class="link" href={REPO} target="_blank" rel="noopener">open source ↗</a>
-    </div>
-  </footer>
+  <VantaBg />
+  <div class="site">
+    <Nav />
+    <main>
+      <Hero />
+      <FormatStrip />
+      <HowItWorks />
+      <UseCases />
+      <Numbers />
+      <Plans />
+      <FinalCta />
+    </main>
+    <Footer />
+  </div>
+  <SiteMotion />
 </Base>
-
-<style>
-  .top { border-bottom: 1px solid var(--line); }
-  .top .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-  .mark { font-size: 15px; font-weight: 700; letter-spacing: 0.22em; }
-  .cur { color: var(--accent); }
-  .nav { display: flex; align-items: center; gap: 22px; }
-  .link { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); }
-  .link:hover { color: var(--ink); }
-  .link .x { color: var(--dim); }
-  .cta {
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 9px 16px;
-    border: 1px solid var(--ink);
-  }
-  .cta:hover { color: var(--bg); background: var(--accent); border-color: var(--accent); }
-
-  .hero { padding: clamp(52px, 10vh, 120px) 0 clamp(48px, 8vh, 96px); text-align: center; }
-  .eyebrow { font-size: 12px; letter-spacing: 0.05em; color: var(--dim); margin: 0 0 clamp(28px, 6vh, 52px); }
-  .stage { max-width: 720px; margin: 0 auto clamp(36px, 6vh, 60px); }
-  .h1 {
-    font-size: clamp(28px, 5vw, 46px);
-    font-weight: 700;
-    line-height: 1.12;
-    letter-spacing: -0.01em;
-    margin: 0 0 20px;
-    text-wrap: balance;
-  }
-  .sub { max-width: 60ch; margin: 0 auto 30px; color: var(--dim); font-size: 14px; line-height: 1.7; }
-  .cta-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-  .go {
-    font-size: 13px;
-    letter-spacing: 0.08em;
-    padding: 14px 28px;
-    border: 1px solid var(--ink);
-    display: inline-flex;
-    gap: 10px;
-    align-items: center;
-  }
-  .go:hover { color: var(--bg); background: var(--accent); border-color: var(--accent); }
-  .ghost { font-size: 13px; letter-spacing: 0.08em; padding: 14px 8px; color: var(--dim); align-self: center; }
-  .ghost:hover { color: var(--ink); }
-
-  .stub { border-top: 1px solid var(--line); padding: 80px 0; text-align: center; }
-  .stub-note { color: var(--dim); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; }
-
-  .foot { border-top: 1px solid var(--line); padding: 28px 0; }
-  .foot .wrap { display: flex; align-items: center; justify-content: space-between; }
-  .foot-mark { font-size: 11px; letter-spacing: 0.1em; color: var(--dim); }
-</style>

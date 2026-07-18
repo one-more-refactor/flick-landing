@@ -1,5 +1,5 @@
-// Where the marketing CTAs point. At deploy the landing owns the root of
-// flick.cr3do.net and the app is served under a path/subdomain — adjust here.
-export const APP_URL = 'https://flick.cr3do.net';
+// Where the marketing CTAs point. The landing owns the root of myflick.app;
+// the app is served from the app subdomain (cool-server via Cloudflare Tunnel).
+export const APP_URL = 'https://app.myflick.app';
 export const REPO = 'https://github.com/one-more-refactor/flick';
-export const SITE = 'https://flick.cr3do.net';
+export const SITE = 'https://myflick.app';

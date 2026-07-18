@@ -2,6 +2,12 @@
 // The auto-running reader — the product pitching itself. Plays a pre-computed
 // flick-core timeline with a requestAnimationFrame accumulator (never
 // setTimeout), the same discipline as the app. Purely presentational.
+//
+// Variants:
+//  - `bare`  drops the rails / progress / meter chrome (word only) for small
+//    vignettes like the phone frame in the use-cases grid.
+//  - `wait`  holds the stream until the page-load choreography fires
+//    `flick:hero-go` (with a timeout fallback so it can never stay frozen).
 import type { TimelineWord } from '../lib/types';
 
 interface Props {
@@ -9,10 +15,20 @@ interface Props {
   wpm?: number;
   loopPauseMs?: number;
   meter?: boolean;
+  bare?: boolean;
+  wait?: boolean;
   class?: string;
 }
 
-const { words, wpm = 480, loopPauseMs = 1400, meter = false, class: klass = '' } = Astro.props;
+const {
+  words,
+  wpm = 480,
+  loopPauseMs = 1400,
+  meter = false,
+  bare = false,
+  wait = false,
+  class: klass = '',
+} = Astro.props;
 ---
 
 <div
@@ -21,12 +37,13 @@ const { words, wpm = 480, loopPauseMs = 1400, meter = false, class: klass = '' }
   data-words={JSON.stringify(words)}
   data-wpm={wpm}
   data-loop={loopPauseMs}
+  data-wait={wait ? 'true' : undefined}
   aria-hidden="true"
 >
-  <div class="hr-rail"><i></i></div>
+  {!bare && <div class="hr-rail"><i></i></div>}
   <div class="hr-word"><span class="hr-pre"></span><span class="hr-pv"></span><span class="hr-post"></span></div>
-  <div class="hr-rail"><i></i></div>
-  <div class="hr-prog"><i></i></div>
+  {!bare && <div class="hr-rail"><i></i></div>}
+  {!bare && <div class="hr-prog"><i></i></div>}
   {meter && (
     <div class="hr-meter">
       <span class="hr-count">000 / 000</span>
@@ -81,7 +98,7 @@ const { words, wpm = 480, loopPauseMs = 1400, meter = false, class: klass = '' }
     const pre = el.querySelector<HTMLElement>('.hr-pre')!;
     const pv = el.querySelector<HTMLElement>('.hr-pv')!;
     const post = el.querySelector<HTMLElement>('.hr-post')!;
-    const prog = el.querySelector<HTMLElement>('.hr-prog i')!;
+    const prog = el.querySelector<HTMLElement>('.hr-prog i');
     const count = el.querySelector<HTMLElement>('.hr-count');
     const total = words.length;
     const digits = Math.max(3, String(total).length);
@@ -92,7 +109,7 @@ const { words, wpm = 480, loopPauseMs = 1400, meter = false, class: klass = '' }
       pre.textContent = w.slice(0, orp);
       pv.textContent = w.charAt(orp);
       post.textContent = w.slice(orp + 1);
-      prog.style.width = `${((index + 1) / total) * 100}%`;
+      if (prog) prog.style.width = `${((index + 1) / total) * 100}%`;
       if (count) count.textContent = `${pad(index + 1, digits)} / ${pad(total, digits)}`;
     }
     paint();
@@ -106,7 +123,7 @@ const { words, wpm = 480, loopPauseMs = 1400, meter = false, class: klass = '' }
       return;
     }
 
-    let last = performance.now();
+    let last = 0;
     let acc = 0;
     let holdUntil = 0;
     const dur = (i: number) => words[i][2] * (60000 / wpm);
@@ -138,7 +155,21 @@ const { words, wpm = 480, loopPauseMs = 1400, meter = false, class: klass = '' }
       paint();
       requestAnimationFrame(frame);
     }
-    requestAnimationFrame(frame);
+
+    let started = false;
+    const begin = () => {
+      if (started) return;
+      started = true;
+      last = performance.now();
+      requestAnimationFrame(frame);
+    };
+    if ('wait' in el.dataset) {
+      // start on the choreography's beat — or after a beat, no matter what
+      window.addEventListener('flick:hero-go', begin, { once: true });
+      window.setTimeout(begin, 2600);
+    } else {
+      begin();
+    }
   }
 
   document.querySelectorAll<HTMLElement>('[data-hero]').forEach(run);

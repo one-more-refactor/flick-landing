@@ -5,9 +5,7 @@ dist/
 # deps
 node_modules/
 
-# bun
-bun.lock*
-# (keep the lockfile? commit it once the stack settles; ignored for now)
+# bun — lockfile committed for reproducible prod builds
 
 # env / editor / os
 .env
