@@ -1,0 +1,9 @@
+# flick-landing — static marketing site (myflick.app root).
+# Astro builds to plain HTML/CSS/JS, so this just bakes dist/ into nginx.
+#
+#   bun run build && podman build -t flick-landing:latest -f deploy/Containerfile .
+
+FROM docker.io/library/nginx:alpine
+COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
+COPY dist/ /usr/share/nginx/html/
+EXPOSE 80
