@@ -84,6 +84,7 @@ const {
   import type { TimelineWord } from '../lib/types';
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const controllers: Array<() => void> = [];
 
   function pad(n: number, w: number) {
     return String(n).padStart(w, '0');
@@ -116,16 +117,19 @@ const {
 
     if (reduced) {
       // a calm slideshow instead of the full-speed stream
-      setInterval(() => {
+      const timer = window.setInterval(() => {
         index = (index + 1) % total;
         paint();
       }, 1400);
+      controllers.push(() => window.clearInterval(timer));
       return;
     }
 
     let last = 0;
     let acc = 0;
     let holdUntil = 0;
+    let frameId = 0;
+    let stopped = false;
     const dur = (i: number) => words[i][2] * (60000 / wpm);
 
     function frame(now: number) {
@@ -137,7 +141,7 @@ const {
           paint();
         }
         last = now;
-        requestAnimationFrame(frame);
+        frameId = requestAnimationFrame(frame);
         return;
       }
       acc += Math.min(now - last, 250);
@@ -153,24 +157,40 @@ const {
         d = dur(index);
       }
       paint();
-      requestAnimationFrame(frame);
+      frameId = requestAnimationFrame(frame);
     }
 
     let started = false;
+    let fallback = 0;
     const begin = () => {
-      if (started) return;
+      if (started || stopped) return;
       started = true;
+      window.clearTimeout(fallback);
+      window.removeEventListener('flick:hero-go', begin);
       last = performance.now();
-      requestAnimationFrame(frame);
+      frameId = requestAnimationFrame(frame);
     };
     if ('wait' in el.dataset) {
       // start on the choreography's beat — or after a beat, no matter what
       window.addEventListener('flick:hero-go', begin, { once: true });
-      window.setTimeout(begin, 2600);
+      fallback = window.setTimeout(begin, 2600);
     } else {
       begin();
     }
+    controllers.push(() => {
+      stopped = true;
+      window.clearTimeout(fallback);
+      window.removeEventListener('flick:hero-go', begin);
+      cancelAnimationFrame(frameId);
+    });
   }
 
   document.querySelectorAll<HTMLElement>('[data-hero]').forEach(run);
+  window.addEventListener(
+    'pagehide',
+    () => {
+      for (const stop of controllers) stop();
+    },
+    { once: true }
+  );
 </script>

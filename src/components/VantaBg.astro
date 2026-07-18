@@ -21,6 +21,7 @@
   let effect: Effect | null = null;
   let libs: { THREE: unknown; DOTS: Factory } | null = null;
   let building = false;
+  let stopped = false;
   let retint: ReturnType<typeof setTimeout> | undefined;
 
   const css = (name: string) =>
@@ -52,7 +53,7 @@
   });
 
   async function build() {
-    if (!holder || effect || building || mq.matches) return;
+    if (!holder || effect || building || stopped || mq.matches) return;
     if (window.innerWidth < 760) return; // keep phones cool
     const conn = (navigator as { connection?: { saveData?: boolean } }).connection;
     if (conn?.saveData) return;
@@ -69,7 +70,7 @@
         const DOTS = (dotsMod.default ?? dotsMod) as Factory;
         libs = { THREE: three, DOTS };
       }
-      if (mq.matches) return; // preference flipped while loading
+      if (mq.matches || stopped) return; // preference or lifecycle changed while loading
       effect = libs.DOTS({
         el: holder,
         THREE: libs.THREE,
@@ -104,20 +105,22 @@
   }
 
   // re-tint on theme / mode flips (debounced; rebuild picks up new tokens)
-  new MutationObserver(() => {
+  const themeObserver = new MutationObserver(() => {
     clearTimeout(retint);
     retint = setTimeout(() => {
       if (!effect) return;
       teardown();
       build();
     }, 180);
-  }).observe(document.documentElement, {
+  });
+  themeObserver.observe(document.documentElement, {
     attributes: true,
     attributeFilter: ['data-mode', 'data-theme'],
   });
 
   // honor a live change of the motion preference
-  mq.addEventListener('change', () => (mq.matches ? teardown() : build()));
+  const onMotionChange = () => (mq.matches ? teardown() : build());
+  mq.addEventListener('change', onMotionChange);
 
   if (!mq.matches) {
     const whenIdle = () => {
@@ -131,5 +134,13 @@
     else window.addEventListener('load', whenIdle, { once: true });
   }
 
-  window.addEventListener('pagehide', teardown);
+  function stop() {
+    stopped = true;
+    clearTimeout(retint);
+    themeObserver.disconnect();
+    mq.removeEventListener('change', onMotionChange);
+    teardown();
+  }
+
+  window.addEventListener('pagehide', stop, { once: true });
 </script>
