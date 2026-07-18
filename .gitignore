@@ -1,0 +1,18 @@
+# build output
+dist/
+.astro/
+
+# deps
+node_modules/
+
+# bun
+bun.lock*
+# (keep the lockfile? commit it once the stack settles; ignored for now)
+
+# env / editor / os
+.env
+.env.*
+.DS_Store
+*.log
+.vscode/
+.idea/

@@ -1,0 +1,66 @@
+---
+import '../styles/tokens.css';
+import { SITE } from '../config';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = 'flick — read it in a flick',
+  description = 'flick is a speed reader: one word at a time on the pivot letter, so your eyes never move and you read two to three times faster. Open source and self-hostable.',
+  image = '/og.png',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, SITE).href;
+const ogImage = new URL(image, SITE).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#0c0a08" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f5f2ea" media="(prefers-color-scheme: light)" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="flick" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- set the theme before first paint (shares flick.mode / flick.theme with
+         the app on the same origin, so a returning reader keeps their look) -->
+    <script is:inline>
+      (function () {
+        try {
+          var m = localStorage.getItem('flick.mode');
+          var t = localStorage.getItem('flick.theme');
+          var mode = m === 'light' || m === 'dark'
+            ? m
+            : window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          var themes = ['paper', 'signal', 'sage', 'tide', 'dusk', 'noir'];
+          var theme = themes.indexOf(t) >= 0 ? t : 'paper';
+          var r = document.documentElement;
+          r.setAttribute('data-mode', mode);
+          r.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
