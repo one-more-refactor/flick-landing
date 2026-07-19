@@ -15,6 +15,18 @@ The marketing site for [**flick**](https://github.com/one-more-refactor/flick) �
 
 > Those libraries are why this repo is separate and **MIT**: some are not GPL-compatible, so they stay out of the AGPL app. The app's own motion is Web Animations API only.
 
+## How it's shaped
+
+```mermaid
+flowchart LR
+    astro["Astro static shell<br/>zero JS by default"] --> hero["island: RSVP hero<br/>auto-running demo"]
+    astro --> orp["island: pinned ORP scene<br/>GSAP ScrollTrigger"]
+    astro --> vign["island: use-case vignettes"]
+    astro --> amb["ambient dot-field<br/>Vanta/three — lazy, reduced-motion off"]
+    lenis["Lenis smooth scroll"] -.- astro
+    hero & orp & vign -- "OPEN FLICK →" --> app["app.myflick.app"]
+```
+
 ## Brand
 
 Design tokens ported from the app (`src/styles/tokens.css`): monospace, square corners, one `--accent`, light/dark read from `flick.mode`/`flick.theme` before first paint. CTA targets live in `src/config.ts`.
