@@ -1,43 +1,34 @@
 # flick-landing
 
-The marketing site for [**flick**](https://github.com/one-more-refactor/flick) — the hosted speed-reading service at **[myflick.app](https://myflick.app)**.
+[![ci](https://github.com/one-more-refactor/flick-landing/actions/workflows/ci.yml/badge.svg)](https://github.com/one-more-refactor/flick-landing/actions/workflows/ci.yml)
+[![release](https://img.shields.io/github/v/release/one-more-refactor/flick-landing?labelColor=111111&color=d32f2f)](https://github.com/one-more-refactor/flick-landing/releases/latest)
+[![commits since](https://img.shields.io/github/commits-since/one-more-refactor/flick-landing/latest?labelColor=111111&color=d32f2f)](https://github.com/one-more-refactor/flick-landing/compare)
+[![license](https://img.shields.io/badge/license-MIT-d32f2f?labelColor=111111)](LICENSE)
 
-It is intentionally **separate** from the app (Rust + Svelte, in [flick-backend](https://github.com/one-more-refactor/flick-backend) / [flick-web](https://github.com/one-more-refactor/flick-web)): different job, different stack, deployed independently. This site is **hosted-only** — the self-hosted edition ships its own in-app guest door, so self-hosters never need this.
+The marketing site for [**flick**](https://github.com/one-more-refactor/flick) — the hosted service at **[myflick.app](https://myflick.app)**. Hosted-only: the self-hosted edition ships its own in-app guest door and never needs this.
 
 ![flick.landing](docs/screenshots/landing.png)
 
 ## Stack
 
-- **[Astro](https://astro.build)** (static output) — content + SEO, zero JS by default.
-- Interactive islands: the auto-running RSVP hero, a pinned scroll scene that aligns to the ORP pivot, use-case vignettes.
-- Motion: **[GSAP](https://gsap.com)** (scroll reveals) · **[Lenis](https://lenis.dev)** (smooth scroll) · **[anime.js](https://animejs.com)** (micro-interactions) · **[Vanta](https://www.vantajs.com)** + three.js (ambient dot-field — lazy-loaded, theme-synced, and disabled under `prefers-reduced-motion`).
+**[Astro](https://astro.build)** (static, zero JS by default) with interactive islands: the auto-running RSVP hero, a pinned ORP scroll scene, use-case vignettes. Motion: **GSAP** · **Lenis** · **anime.js** · **Vanta**/three.js (lazy, theme-synced, off under `prefers-reduced-motion`).
 
-> These libraries are why this site is a separate repo: some are **not** GPL-compatible, so keeping them out of the AGPL app avoids any licensing conflict. The app's own motion uses only the Web Animations API.
+> Those libraries are why this repo is separate and **MIT**: some are not GPL-compatible, so they stay out of the AGPL app. The app's own motion is Web Animations API only.
 
 ## Brand
 
-Design tokens are ported from the app (`src/styles/tokens.css`) so the two share one look: monospace, square corners, one accent (`--accent`), light/dark. On the same origin the theme is read from `flick.mode` / `flick.theme` in `localStorage` before first paint, so there's no flash.
+Design tokens ported from the app (`src/styles/tokens.css`): monospace, square corners, one `--accent`, light/dark read from `flick.mode`/`flick.theme` before first paint. CTA targets live in `src/config.ts`.
 
-Where the CTAs point is in `src/config.ts` (`APP_URL`, `SITE`, `REPO`).
-
-## Develop
+## Develop / Deploy
 
 ```sh
-bun install
-bun run dev      # http://localhost:4321
-bun run build    # -> dist/
-bun run check    # astro + type check
+bun install && bun run dev    # http://localhost:4321
+bun run build                 # -> dist/
+podman build -t flick-landing -f deploy/Containerfile .   # nginx:alpine, rootless, behind a CF tunnel
 ```
 
-## Deploy
-
-Static `dist/`. Baked into `nginx:alpine` (`deploy/Containerfile`) and run rootless behind a Cloudflare Tunnel — see [`deploy/`](deploy). No exposed ports.
-
-```sh
-bun run build
-podman build -t flick-landing -f deploy/Containerfile .
-```
+Releases: bump `package.json`, tag `vX.Y.Z`, push — CI verifies the version, builds, and publishes the release.
 
 ## License
 
-[MIT](LICENSE) — this marketing site only. The flick app is [AGPL-3.0](https://github.com/one-more-refactor/flick/blob/master/LICENSE). Bundled third-party libraries (GSAP, three.js, …) carry their own licenses.
+[MIT](LICENSE) — this site only. The flick app is [AGPL-3.0](https://github.com/one-more-refactor/flick/blob/master/LICENSE). Bundled libraries carry their own licenses.
