@@ -7,7 +7,11 @@ After=network-online.target
 Wants=network-online.target
 
 [Container]
-Image=localhost/flick-landing:latest
+Image=ghcr.io/one-more-refactor/flick-landing:latest
+# Track the registry digest; podman-auto-update pulls and restarts on change.
+# Enable once per host: systemctl --user enable --now podman-auto-update.timer
+# Pin to a version tag instead (e.g. :v1.2.0) to freeze this host.
+AutoUpdate=registry
 ContainerName=flick-landing
 # Loopback only — served through Cloudflare Tunnel.
 PublishPort=127.0.0.1:3012:80
