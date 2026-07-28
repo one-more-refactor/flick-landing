@@ -103,12 +103,15 @@ import LegalDoc from '../layouts/LegalDoc.astro';
   <h3>3.7 Cookie und lokaler Speicher</h3>
   <ul>
     <li><strong>flick_session</strong> — ein technisch notwendiges <code>HttpOnly</code>/<code>Secure</code>/<code>SameSite=Lax</code>-Cookie, das Sie angemeldet hält (30 Tage). Es dient nicht dem Tracking. <em>§ 25 Abs. 2 Nr. 2 TDDDG — keine Einwilligung erforderlich.</em></li>
-    <li><strong>Lokaler Speicher (localStorage)</strong> — enthält nur funktionale Einstellungen (Theme, Sprache, Tempo) und bleibt auf Ihrem Gerät.</li>
+    <li><strong>Lokaler Speicher (localStorage)</strong> — enthält nur funktionale Einstellungen (Theme, Sprache, Tempo, Ausblenden des Hinweises unten) und bleibt auf Ihrem Gerät. Gesetzt wird er erst, wenn Sie die jeweilige Einstellung selbst ändern.</li>
   </ul>
   <p>
     Da wir ausschließlich technisch notwendige Speicherung und keinerlei
-    Tracker einsetzen, zeigen wir <strong>keinen Cookie-Banner</strong> — es
-    gibt nichts einzuwilligen.
+    Tracker einsetzen, ist <strong>keine Einwilligung erforderlich</strong> — es
+    gibt nichts einzuwilligen und entsprechend keine Einwilligung, die Sie
+    widerrufen müssten. Der kurze Hinweis am Seitenende ist deshalb bewusst
+    <strong>nur eine Information</strong> und keine Cookie-Abfrage: er
+    blockiert nichts, setzt nichts voraus und lässt sich schlicht schließen.
   </p>
 
   <h3>3.8 Server- und Sicherheitsprotokolle</h3>

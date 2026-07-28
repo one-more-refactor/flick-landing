@@ -22,7 +22,7 @@ import { APP_URL, REPO } from '../config';
         </header>
         <ul data-stagger>
           <li>The whole reader — every speed, every theme</li>
-          <li>Web, phone, and the browser extension</li>
+          <li>Web, phone (installable as an app), and the terminal client</li>
           <li>Every import: paste, PDF, EPUB, TXT, Markdown, URLs, Kindle clippings, cloud links</li>
           <li>Share links to anything you read</li>
           <li>15 uploads a week, uncapped storage</li>
@@ -34,17 +34,22 @@ import { APP_URL, REPO } from '../config';
 
       <article class="plan pro" data-reveal data-reveal-delay="0.08">
         <header class="head">
-          <h3>Pro <span class="badge">supports the project</span></h3>
-          <p class="price"><b>€4</b><span>/month — or €36 a year</span></p>
+          <h3>Pro <span class="badge">planned</span></h3>
+          <p class="price"><b>Later</b><span> — no payments yet</span></p>
         </header>
         <ul data-stagger>
           <li>Everything in Free</li>
           <li>Unlimited uploads</li>
           <li>Reading history that never expires</li>
-          <li>Deep server-side reading insights <i class="soon">soon</i></li>
+          <li>Deep server-side reading insights</li>
           <li>Keeps the servers on and the project moving</li>
         </ul>
-        <a class="btn plan-btn" href={APP_URL}>Go Pro <span class="ar">→</span></a>
+        <p class="pro-note">
+          Pro isn't taking money yet — there's nothing to buy and no card to enter. When it
+          does arrive, prices will be shown including VAT, and nothing that's free today moves
+          behind it.
+        </p>
+        <a class="btn-ghost plan-btn" href={APP_URL}>Start free instead <span class="ar">→</span></a>
       </article>
     </div>
 
@@ -70,6 +75,13 @@ import { APP_URL, REPO } from '../config';
     padding-left: 16px;
   }
   .law b { color: var(--ink); }
+
+  .pro-note {
+    margin: 4px 0 0;
+    font-size: 11px;
+    line-height: 1.75;
+    color: var(--dim);
+  }
 
   .grid {
     display: grid;

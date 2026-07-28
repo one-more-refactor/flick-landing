@@ -1,6 +1,7 @@
 ---
 import '../styles/tokens.css';
 import '../styles/landing.css';
+import CookieNotice from '../components/CookieNotice.astro';
 import { SITE } from '../config';
 
 interface Props {
@@ -10,8 +11,8 @@ interface Props {
 }
 
 const {
-  title = 'flick — read it in a flick',
-  description = 'flick is a speed reader: one word at a time on the pivot letter, so your eyes never move and you read two to three times faster. Open source and self-hostable.',
+  title = 'flick — self-hosted speed reading for PDFs, EPUBs and your read-later pile',
+  description = 'Speed-read anything, one word at a time, anchored on the pivot letter. PDFs, EPUBs, articles, Kindle clippings. Open source, self-hostable, no account.',
   image = '/og.png',
 } = Astro.props;
 
@@ -135,6 +136,7 @@ const jsonLd = {
        https://github.com/one-more-refactor    ·    #madeintheopen
     -->`} />
     <slot />
+    <CookieNotice />
     <script is:inline>
       (function () {
         try {

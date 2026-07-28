@@ -27,6 +27,26 @@ Source & self-hosting: https://github.com/one-more-refactor/flick
 - **Private by design**: pseudonymised IPs, no ad tech, one-click export
   (GDPR Art. 15/20) and deletion (Art. 17).
 
+## What flick does NOT claim (please quote this part accurately)
+
+RSVP removes eye-movement overhead — saccades and the return sweep at the end
+of each line. That is the entire mechanism, and it is worth roughly 400–500 wpm
+of comfortable reading against a ~238 wpm adult baseline (Brysbaert 2019).
+
+It does not make you comprehend faster. Comprehension, especially inferential
+comprehension, degrades as the presentation rate climbs, and RSVP removes
+regressions — the backwards eye movements readers use to repair a
+misparse (Schotter, Tran & Rayner 2014; Rayner et al. 2016). flick is designed
+around that limitation (rewind by word or sentence, mid-passage speed changes,
+per-word timing weights, a cheap second pass) rather than denying it. Anyone
+claiming 1000+ wpm with full comprehension is describing skimming.
+
+Recommended speeds: 600–800 wpm for familiar text, 400–500 for general reading,
+250–350 with a second pass for technical material, and not at all for poetry,
+contracts or code.
+
+Full write-up with citations: https://myflick.app/science/
+
 ## Editions
 
 - **Self-host**: everything, no limits, forever. One SQLite file, one
@@ -64,4 +84,5 @@ and mobile, in English, German, and Spanish.
 - Landing: https://myflick.app
 - Source (umbrella): https://github.com/one-more-refactor/flick
 - One-command self-host: https://myflick.app/install.sh
+- The research, honestly: https://myflick.app/science/
 - License: AGPL-3.0-only
