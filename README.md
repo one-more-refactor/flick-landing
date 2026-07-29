@@ -1,9 +1,9 @@
 # flick-landing
 
 [![ci](https://github.com/one-more-refactor/flick-landing/actions/workflows/ci.yml/badge.svg)](https://github.com/one-more-refactor/flick-landing/actions/workflows/ci.yml)
-[![release](https://img.shields.io/github/v/release/one-more-refactor/flick-landing?labelColor=111111&color=d32f2f)](https://github.com/one-more-refactor/flick-landing/releases/latest)
-[![commits since](https://img.shields.io/github/commits-since/one-more-refactor/flick-landing/latest?labelColor=111111&color=d32f2f)](https://github.com/one-more-refactor/flick-landing/compare)
-[![license](https://img.shields.io/badge/license-MIT-d32f2f?labelColor=111111)](LICENSE)
+[![release](https://img.shields.io/github/v/release/one-more-refactor/flick-landing?labelColor=111111&color=f2ede5)](https://github.com/one-more-refactor/flick-landing/releases/latest)
+[![commits since](https://img.shields.io/github/commits-since/one-more-refactor/flick-landing/latest?labelColor=111111&color=f2ede5)](https://github.com/one-more-refactor/flick-landing/compare)
+[![license](https://img.shields.io/badge/license-MIT-f2ede5?labelColor=111111)](LICENSE)
 
 The marketing site for [**flick**](https://github.com/one-more-refactor/flick) — the hosted service at **[myflick.app](https://myflick.app)**. Hosted-only: the self-hosted edition ships its own in-app guest door and never needs this.
 
