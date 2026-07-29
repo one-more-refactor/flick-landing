@@ -24,11 +24,12 @@ const THEMES = [
       <a href="/#selfhost">Self-host</a>
       <a href="/science/">The research</a>
       <a href={REPO} target="_blank" rel="noopener">AGPL-3.0</a>
-      {/* § 5 DDG wants the Anbieterkennzeichnung reachable from every page, and
-          Art. 13 DSGVO the same for the privacy notice — so both are linked
-          site-wide. NOTE: impressum.astro still carries [placeholder] operator
-          details; filling those in is what actually makes this compliant. */}
-      <a href="/impressum/">Impressum</a>
+      {/* Art. 13 DSGVO wants the privacy notice reachable from every page, so
+          it stays linked site-wide. The Impressum is down by the operator's
+          decision while this runs non-commercially — /impressum/ now explains
+          that instead, and must go back to a full § 5 DDG Anbieterkennzeichnung
+          before Pro takes any money. */}
+      <a href="/impressum/">Über diese Instanz</a>
       <a href="/datenschutz/">Datenschutz</a>
       <a href={APP_URL}>Open flick →</a>
     </nav>
