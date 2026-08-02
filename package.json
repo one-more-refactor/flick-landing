@@ -20,7 +20,7 @@
     "vanta": "^0.5.24"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.9",
+    "@astrojs/check": "^0.9.10",
     "typescript": "^6"
   }
 }
